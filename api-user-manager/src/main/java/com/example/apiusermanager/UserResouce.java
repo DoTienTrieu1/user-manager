@@ -3,7 +3,6 @@ package com.example.apiusermanager;
 import com.example.apiusermanager.exception.ValidationException;
 import com.example.apiusermanager.models.User;
 import com.example.apiusermanager.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,10 +30,10 @@ public class UserResouce {
         }
     }
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User user) {
+    public ResponseEntity<User> register(@RequestBody User user) {
         user.setId(null);
-        String newUser = userService.register(user);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+        user = userService.register(user);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")

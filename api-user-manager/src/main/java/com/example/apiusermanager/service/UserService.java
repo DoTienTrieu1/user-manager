@@ -28,7 +28,6 @@ public class UserService {
         if (username == null || username.trim().isEmpty()) {
             errors.put("username", "Tên người dùng không được để trống");
         }
-
         if (password == null || password.trim().isEmpty()) {
             errors.put("password", "Mật khẩu không được để trống");
         }
@@ -36,15 +35,22 @@ public class UserService {
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
         }
+
         User user = userRepo.findByUsername(username);
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            if (!"ADMIN".equalsIgnoreCase(user.getRole())) {
+                errors.put("general", "Bạn không có quyền ADMIN");
+                throw new ValidationException(errors);
+            }
             return user;
         }
-        throw new RuntimeException("Tên đăng nhập hoặc mật khẩu không chính xác");
+
+        errors.put("general", "Tên người dùng hoặc mật khẩu không đúng");
+        throw new ValidationException(errors);
     }
 
 
-    public String register(User user) {
+    public User register(User user) {
         Map<String, String> errors = new HashMap<>();
         if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
             errors.put("username", "Tên người dùng không được để trống");
@@ -56,10 +62,14 @@ public class UserService {
 
         if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
             errors.put("password", "Mật khẩu không được để trống");
+        } else if (user.getPassword().length() < 8) {
+            errors.put("password", "Mật khẩu phải có ít nhất 8 ký tự");
         }
 
         if (user.getPhone() == null || user.getPhone().trim().isEmpty()) {
             errors.put("phone", "Mật khẩu không được để trống");
+        } else if (user.getPhone().length() < 10) {
+            errors.put("phone", "sdt phải có ít nhất 10 ký tự");
         }
 
         if (userRepo.existsByUsername(user.getUsername())) {
@@ -77,8 +87,8 @@ public class UserService {
             throw new ValidationException(errors);
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepo.save(user);
-        return "User registered successfully!";
+        user.setRole("ADMIN");
+        return userRepo.save(user);
     }
 
     public List<User> getAllUsers() {
@@ -97,10 +107,14 @@ public class UserService {
 
         if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
             errors.put("password", "Mật khẩu không được để trống");
+        } else if (user.getPassword().length() < 8) {
+            errors.put("password", "Mật khẩu phải có ít nhất 8 ký tự");
         }
 
         if (user.getPhone() == null || user.getPhone().trim().isEmpty()) {
             errors.put("phone", "Mật khẩu không được để trống");
+        } else if (user.getPhone().length() < 10) {
+            errors.put("phone", "sdt phải có ít nhất 10 ký tự");
         }
 
         if (userRepo.existsByUsername(user.getUsername())) {
@@ -118,6 +132,7 @@ public class UserService {
             throw new ValidationException(errors);
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("USER");
         return userRepo.save(user);
     }
 

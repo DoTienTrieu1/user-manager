@@ -27,12 +27,22 @@ export class RegisterComponent {
         setTimeout(() => this.router.navigate(['/login']));
       },
       error: (err: any) => {
-        console.error('Lỗi chi tiết:', err);
+        console.error('Chi tiết lỗi:', err);
+
         this.validationErrors = {};
-        if (err.status === 400 && err.error && typeof err.error === 'object') {
-          this.validationErrors = err.error;
+        this.errorMessage = '';
+
+        if (err.status === 400 && err.error) {
+          // Nếu backend trả về lỗi theo từng trường
+          if (typeof err.error === 'object') {
+            this.validationErrors = err.error;
+          } else if (typeof err.error === 'string') {
+            this.errorMessage = err.error;
+          } else {
+            this.errorMessage = 'Lỗi không xác định';
+          }
         } else {
-          this.errorMessage = err.error?.message || 'Có lỗi xảy ra!';
+          this.errorMessage = err.error?.message || 'Có lỗi hệ thống xảy ra!';
         }
       }
     });

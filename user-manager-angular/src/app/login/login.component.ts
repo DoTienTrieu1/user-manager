@@ -21,6 +21,7 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
   errorMessage: string = '';
+  validationErrors: { [key: string]: string } = {};
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -32,12 +33,14 @@ export class LoginComponent {
       },
       error: (err: HttpErrorResponse) => {
         console.error('Chi tiết lỗi:', err);
-        if (err.error instanceof ProgressEvent) {
-          this.errorMessage = 'Không thể kết nối tới server. Vui lòng thử lại sau.';
+        if (err.status === 400 && typeof err.error === 'object') {
+          this.validationErrors = err.error;
         } else {
-          this.errorMessage = err.error || 'Đăng ký thất bại!';
+          this.validationErrors = { general: 'Đăng nhập thất bại!' };
         }
       }
     });
   }
+
 }
+

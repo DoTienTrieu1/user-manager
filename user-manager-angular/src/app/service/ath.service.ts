@@ -20,7 +20,7 @@ export class AuthService {
   private loggedInUser: User | null = null;
   private loggedIn = new BehaviorSubject<boolean>(this.checkLoginFromStorage());
 
-  isLoggedIn$ = this.loggedIn.asObservable(); // observable để header lắng nghe
+  isLoggedIn$ = this.loggedIn.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -34,7 +34,7 @@ export class AuthService {
 
   setLoggedInUser(user: User): void {
     this.loggedInUser = user;
-    localStorage.setItem('token', 'true'); // giả sử token là true
+    localStorage.setItem('token', 'true');
     this.loggedIn.next(true);
   }
 

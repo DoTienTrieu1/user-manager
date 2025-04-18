@@ -39,15 +39,6 @@
           <option value="female">Nữ</option>
         </select></div>
 
-      <div>
-        <label for="role">Vai trò:</label>
-        <select id="role" [(ngModel)]="user!.role" name="role">
-          <option value="">Chọn vai trò</option>
-          <option value="user">USER</option>
-          <option value="admin">ADMIN</option>
-        </select>
-      </div>
-
       <button type="submit">Lưu</button>
       <button type="button" (click)="closeModal()">Hủy</button>
     </form>
