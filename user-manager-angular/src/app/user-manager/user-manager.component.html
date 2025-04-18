@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="user-manager.component.css">
+<div class="user-manager-container">
+  <h2>Danh sách người dùng</h2>
+  <button (click)="openCreateModal()">Thêm người dùng mới</button>
+  <table>
+    <thead>
+    <tr>
+      <th>Tên người dùng</th>
+      <th>Email</th>
+      <th>Số điện thoại</th>
+      <th>Giới tính</th>
+      <th>Vai trò</th>
+      <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.phone || 'N/A' }}</td>
+      <td>{{ user.gender || 'N/A' }}</td>
+      <td>{{ user.role || 'N/A' }}</td>
+      <td>
+        <button (click)="openEditModal(user)">Sửa</button>
+        <button (click)="deleteUser(user.id)">Xóa</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <app-user-form-modal *ngIf="selectedUser" [user]="selectedUser" (close)="selectedUser = null; loadUsers()"></app-user-form-modal>
+</div>

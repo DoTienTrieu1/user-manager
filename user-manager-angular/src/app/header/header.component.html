@@ -1,0 +1,5 @@
+<nav>
+  <a routerLink="/register" *ngIf="!loggedIn">Đăng ký</a>
+  <a routerLink="/login" *ngIf="!loggedIn">Đăng nhập</a>
+  <button *ngIf="loggedIn" (click)="logout()">Đăng xuất</button>
+</nav>

@@ -1,0 +1,31 @@
+/* header.component.css */
+
+nav {
+  background-color: #1d3557; /* Màu nền xanh đậm */
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+nav a, nav button {
+  color: #f1faee; /* Màu chữ sáng */
+  text-decoration: none;
+  font-weight: 500;
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+nav a:hover, nav button:hover {
+  background-color: #457b9d; /* Màu nền khi hover */
+}
+
+nav button {
+  font-family: inherit;
+}

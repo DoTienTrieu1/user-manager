@@ -1,0 +1,55 @@
+<div class="modal">
+  <div class="modal-content">
+    <h2>{{ user!.id === 0 ? 'Thêm người dùng mới' : 'Sửa thông tin người dùng' }}</h2>
+
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+
+    <form (ngSubmit)="save()">
+      <div>
+        <label for="username">Tên người dùng:</label>
+        <input id="username" [(ngModel)]="user!.username" name="username" required />
+        <div class="error" *ngIf="validationErrors['username']">{{ validationErrors['username'] }}</div>
+      </div>
+
+      <div>
+        <label for="email">Email:</label>
+        <input id="email" [(ngModel)]="user!.email" name="email" type="email" required />
+        <div class="error" *ngIf="validationErrors['email']">{{ validationErrors['email'] }}</div>
+      </div>
+
+      <div>
+        <label for="password">Mật khẩu:</label>
+        <input id="password" [(ngModel)]="user!.password" name="password" type="password"
+               [required]="user!.id === 0" />
+        <div class="error" *ngIf="validationErrors['password']">{{ validationErrors['password'] }}</div>
+      </div>
+
+      <div>
+        <label for="phone">Số điện thoại:</label>
+        <input id="phone" [(ngModel)]="user!.phone" name="phone" />
+        <div class="error" *ngIf="validationErrors['phone']">{{ validationErrors['phone'] }}</div>
+      </div>
+
+      <div>
+        <label for="gender">Giới tính:</label>
+        <select id="gender" [(ngModel)]="user!.gender" name="gender">
+          <option value="">Chọn giới tính</option>
+          <option value="male">Nam</option>
+          <option value="female">Nữ</option>
+        </select></div>
+
+      <div>
+        <label for="role">Vai trò:</label>
+        <select id="role" [(ngModel)]="user!.role" name="role">
+          <option value="">Chọn vai trò</option>
+          <option value="user">USER</option>
+          <option value="admin">ADMIN</option>
+        </select>
+      </div>
+
+      <button type="submit">Lưu</button>
+      <button type="button" (click)="closeModal()">Hủy</button>
+    </form>
+  </div>
+</div>
